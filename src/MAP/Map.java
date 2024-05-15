@@ -214,7 +214,8 @@ public class Map  implements Serializable
                                                                     Integer.parseInt(info[4]), 
                                                                     Integer.parseInt(info[5]),
                                                                     Integer.parseInt(info[6]),
-                                                                    Integer.parseInt(info[7])));
+                                                                    Integer.parseInt(info[7]),
+                                                                    Boolean.parseBoolean(info[8])));
                                 break;
 
                     default:

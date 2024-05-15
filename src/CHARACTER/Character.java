@@ -109,6 +109,8 @@ public abstract class Character implements Serializable
         {
             this.maxHP = maxHPtoSet;
         }
+
+        //System.out.println("setMaxHp using: current HP - max HP = " + this.getHP() + "---" + this.getMaxHp());
     }
     public void setName(String name)
     {this.Name = name;}

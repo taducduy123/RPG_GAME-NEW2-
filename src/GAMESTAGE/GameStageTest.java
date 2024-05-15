@@ -3,6 +3,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import CHARACTER.*;
 import ITEM.*;
 import MAP.*;
@@ -29,8 +31,8 @@ public class GameStageTest implements Serializable
     //Constructor
     public GameStageTest()
     {
-        this.currentMapNo = 1;
-        this.stageNo = 1;
+        this.currentMapNo = 3;
+        this.stageNo = 3;
         this.isExit = false;
 
         this.player = new Player(null);
@@ -121,26 +123,52 @@ public class GameStageTest implements Serializable
         // [2. attack (availible)] and [2. attack (not availible)] || solution: None
 
         int choice;
-        System.out.println("------Now it Your turn to go-------");
-        System.out.println("1. Move");
-        System.out.println("2. Attack");
-        System.out.println("3. Inventory");
-        System.out.println("4. exit");
+        System.out.println("\n*******************************************************************\n");
+        System.out.println("1. Move Up");
+        System.out.println("2. Move Down");
+        System.out.println("3. Move Left");
+        System.out.println("4. Move Right");
+        System.out.println("5. No Move");
+        System.out.println("6. Attack");
+        System.out.println("7. Inventory");
+        System.out.println("8. Exit");
+        System.out.print("Enter your choice: ");
         choice = input.nextInt();
         input.nextLine();
-        switch (choice){
+
+        switch (choice)
+        {
             case 1:
-                playerMove();
+                this.player.moveUp(this.map);
                 break;
+            
             case 2:
+                this.player.moveDown(this.map);
+                break;
+
+            case 3:
+                this.player.moveLeft(this.map);
+                break;
+            
+            case 4:
+                this.player.moveRight(this.map);
+                break;
+            
+            case 5:
+                break;
+
+            case 6:
                 playerAttack();
                 break;
-            case 3:
+
+            case 7:
                 playerInvent();
                 break;
-            case 4:
+
+            case 8:
                 this.isExit = true;
                 break;
+
             default:
                 System.out.println("Invalid choice please choose again!");
                 playerAction();
@@ -308,6 +336,17 @@ public class GameStageTest implements Serializable
     }
 
 
+    public void messageToShow()
+    {      
+        if(player.detectMonsters(map) > 0)
+        {
+            JOptionPane.showMessageDialog(null, "WARNING: " 
+                                                            + player.detectMonsters(map) 
+                                                            + " monster(s) in front of you!!!");
+        }          
+    }
+
+
 //---------------------------------------------------- Reset Player -------------------------------------------
     public void resetPlayerWhenDied(){
         this.player = new Player(null);
@@ -336,6 +375,7 @@ public class GameStageTest implements Serializable
     {
         this.map.drawMap(this.player);
         this.player.showState();
+        this.messageToShow();
     }
 
 

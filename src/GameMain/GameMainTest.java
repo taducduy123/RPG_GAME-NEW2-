@@ -48,7 +48,6 @@ public class GameMainTest
                 case 1:
                         this.stage = new GameStageTest();
                         startStage();
-                        //update
                         break;
 
                 case 2: // reminder: add the sistuation where it cannot find the file
@@ -78,10 +77,10 @@ public class GameMainTest
  
     //run a specific stage with current player, map, inventory (Notice when player want to pause program)
 
-    public void startStage()
+    public void startStage()  //~~ Stages Loop
     {
         stage.showGraphic();
-
+        boolean isBossMap  = this.stage.isBossStage();
         do 
         {
             stage.playerAction();
@@ -106,12 +105,14 @@ public class GameMainTest
                  
         else if(stage.win())
         {
-            if(!this.stage.isBossStage())
+            if(!isBossMap)
             {
                 while(!this.stage.isPlayeratDoor() && !stage.isExit())
                 {
                     stage.playerAction();
+                    stage.updateMap();
                     stage.showGraphic();
+                    stage.save(fileName);
                 }
 
                 if(this.stage.isPlayeratDoor())
@@ -119,7 +120,9 @@ public class GameMainTest
                     this.stage.resetPlayerWhenNextStage();
                     this.stage.nextmap();
                     this.startStage();
+                    stage.save(fileName);
                 }
+                
             }
             else
             {
@@ -127,30 +130,28 @@ public class GameMainTest
                 {
                     this.stage.nextmap();
                     this.startStage();
+                    stage.save(fileName);
                 }
                 else
                 {
                     while(!this.stage.isPlayeratDoor() && !stage.isExit())
                     {
                         stage.playerAction();
+                        stage.updateMap();
                         stage.showGraphic();
+                        stage.save(fileName);
                     }
 
                     if(this.stage.isPlayeratDoor())
                     {
                         System.out.println("CONGRATULATION! YOU WIN ENTIRE GAME!!! (Press any key to continue):");
                         input.nextLine();
+                        stage.save(fileName);
                     }
-
                 }
             }
             
-        }
- 
-            
-        
-
-      
+        }     
     }
 
 

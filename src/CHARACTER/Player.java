@@ -94,6 +94,7 @@ public class Player extends Character
             this.armor.setInUse(false);
             this.armor.unapplyEffectTo(this);       
             this.armor = null;
+            //System.out.println("NOW WE ARE UNEQUIPING");
         }
     }
 
@@ -159,7 +160,9 @@ public class Player extends Character
              //2. Equip new attack weapon with corresponding effect and change state of use
              itemToEquip.setInUse(true);
              this.armor = itemToEquip;
-             this.armor.applyEffectTo(this);           
+             this.armor.applyEffectTo(this); 
+             
+             //System.out.println("NOW WE ARE EQUIP");
         }
     } 
 
@@ -187,6 +190,26 @@ public class Player extends Character
     {
         Player player = new Player(null);
         player.showState();
+
+        System.out.println();
+        Armor a1 = new Armor("Armor",10,10,3,0);
+        Armor a2 = new Armor("G Armor",10,10,4,0);
+        Armor a3 = new Armor("G Armor",10,10,2,0);
+
+        System.out.println("After 1st time equip:");
+        player.equipArmor(a1);
+        player.showState();
+        System.out.println();
+
+        System.out.println("After 2nd time equip:");
+        player.equipArmor(a2);
+        player.showState();
+        System.out.println();
+
+        System.out.println("After 3rd time equip:");
+        player.equipArmor(a3);
+        player.showState();
+        
     }
 
 

@@ -12,14 +12,16 @@ import ITEM.*;
 public class Boss extends Monster
 {
 
-    private int phase2_turnCount;
+    private int collisionCount;
+    private boolean inSecondPhase;
 //--------------------------------------------------
 
-    public Boss(String name, int maxhp, int atk, int def, int range, int x, int y) {
+    public Boss(String name, int maxhp, int atk, int def, int range, int x, int y, boolean state) {
         super(name, maxhp, atk, def, range, x, y);
         this.setItemToDrop();
         this.lootRate = 1;
-        this.phase2_turnCount = 0;
+        this.collisionCount = 0;
+        this.inSecondPhase = state;
     }
 
 
@@ -63,36 +65,23 @@ public class Boss extends Monster
     {
         if(this.getHP() > 0)            //if boss is still alive
         {
-            if(this.collidePlayer(p))      //if player is in range of boss
+            if(this.collidePlayer(p))
             {
-                if(this.lowerHalfHp())     //this is time boss uses special skills
+                if(!this.inSecondPhase)         //if boss in phase 1
                 {
-                    ////Now range of boss covers entire map
-                    //this.setRange(m.getMaxTileCols() >= m.getMaxTileRows()? m.getMaxTileCols() : m.getMaxTileRows());
-                    if(this.phase2_turnCount % 5 == 0)        //push player far away after every 5 turns
+                    p.takeDamage(this.getAttack());
+                }
+                else                            //if boss in phase 2
+                {
+                    if(this.collisionCount % 5 == 0)
                     {
-                        JOptionPane.showMessageDialog(null, "Boss pushes you far away!!!!");
                         bossPush(m, p);
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "WARNING: " 
-                                                                + this.getName() 
-                                                                + " attacked you. You lost " 
-                                                                + p.takeDamage(this.getAttack()) 
-                                                                + " HP!!!");
+                        p.takeDamage(this.getAttack());
                     }
-
-                    //Update number of turns in phase 2
-                    this.phase2_turnCount = this.phase2_turnCount + 1;
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "WARNING: " 
-                                                                + this.getName() 
-                                                                + " attacked you. You lost " 
-                                                                + p.takeDamage(this.getAttack()) 
-                                                                + " HP!!!");
+                    collisionCount++;
                 }
             }
             else
