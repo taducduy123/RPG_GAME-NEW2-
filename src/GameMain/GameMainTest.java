@@ -10,10 +10,9 @@ import GAMESTAGE.GameStageTest;
 public class GameMainTest 
 {
     private GameStageTest stage;
-    
+    private MapManager mManager;                        //new new new 
 
     private final int maxMapNum = 4;
-    
     private final String fileName = "Data.ser";
 
     private static Scanner input = new Scanner(System.in);
@@ -23,7 +22,7 @@ public class GameMainTest
     //Constructor
     public GameMainTest()
     {
-
+        this.mManager = new MapManager(maxMapNum, new int[]{1,1,2});                //new new new
     }
 
 
@@ -54,7 +53,7 @@ public class GameMainTest
                         this.stage = GameStageTest.load(fileName);
                         if(this.stage == null)
                         {
-                            System.out.println("Not Found Current Game Data!");
+                            System.out.println("Not Found Previous Game Data!");
                             break;
                         }
                         this.stage.setExitState(false);
@@ -76,11 +75,13 @@ public class GameMainTest
     }
  
     //run a specific stage with current player, map, inventory (Notice when player want to pause program)
-
     public void startStage()  //~~ Stages Loop
     {
+        this.showTitle();                                   //new new new
+
         stage.showGraphic();
         boolean isBossMap  = this.stage.isBossStage();
+
         do 
         {
             stage.playerAction();
@@ -99,7 +100,7 @@ public class GameMainTest
             stage.resetstage();
             stage.resetPlayerWhenDied();
             stage.delete(fileName);
-            System.out.println(">> You died!! Let's start at beginning (press any key to continue):" );
+            System.out.println(">> You died!! Let's start at beginning (Press any [Enter] to continue):" );
             input.nextLine();
         }
                  
@@ -144,7 +145,7 @@ public class GameMainTest
 
                     if(this.stage.isPlayeratDoor())
                     {
-                        System.out.println("CONGRATULATION! YOU WIN ENTIRE GAME!!! (Press any key to continue):");
+                        System.out.println("CONGRATULATION! YOU WIN ENTIRE GAME!!! (Press [Enter] to continue):");
                         input.nextLine();
                         stage.save(fileName);
                     }
@@ -155,6 +156,32 @@ public class GameMainTest
     }
 
 
+
+    //show title for each Stage                     //new new new
+    public void showTitle()
+    {
+        if(this.mManager.getCorrespondingPhaseNo(this.stage.getCurrentMapNo()) == -1)       //if now is regular stage
+        {
+            System.out.println("\n**********************************************************************************************");
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Welcome to Stage #" + this.stage.getStageNo() + " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            System.out.println("**********************************************************************************************");
+            System.out.println("Press [Enter] to continue: ");
+            input.nextLine();
+        }
+        else                                                                                //if now is boss stage
+        {
+            System.out.println("\n***********************************************************************************************");
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Welcome to Stage #" + this.stage.getStageNo() 
+                                                                                    + " (phase #" 
+                                                                                    + mManager.getCorrespondingPhaseNo(this.stage.getCurrentMapNo()) 
+                                                                                    + ") <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            System.out.println("***********************************************************************************************");
+            System.out.println("Press [Enter] to continue: ");
+            input.nextLine();
+        }
+    }
+
+    
     public static void main(String[] args) {
         GameMainTest gmt = new GameMainTest();
         gmt.Run();

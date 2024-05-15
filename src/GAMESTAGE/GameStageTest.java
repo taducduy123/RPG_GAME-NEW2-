@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 import CHARACTER.*;
+import GameMain.GameMainTest;
 import ITEM.*;
 import MAP.*;
 
@@ -31,8 +32,20 @@ public class GameStageTest implements Serializable
     //Constructor
     public GameStageTest()
     {
-        this.currentMapNo = 3;
-        this.stageNo = 3;
+        this.currentMapNo = 1;
+        this.stageNo = 1;
+        this.isExit = false;
+
+        this.player = new Player(null);
+        this.map = new Map("src\\InputFile\\map"+ currentMapNo + ".txt");
+        this.invent = new Inventory(inventorySize);
+    }
+
+    //Constructor #2
+    public GameStageTest(int stageNo, int currentMapNo)
+    {
+        this.currentMapNo = currentMapNo;
+        this.stageNo = stageNo;
         this.isExit = false;
 
         this.player = new Player(null);
@@ -70,7 +83,7 @@ public class GameStageTest implements Serializable
         this.map.doWork(this.player, this.invent);
     }
 
-    
+
 //---------------------------------------- win-loose-exit-door condition-----------------------------------------
 
     public boolean win()                //(win = true ==> loose == false)  //(win = false ==> loose == true || false)
@@ -342,7 +355,7 @@ public class GameStageTest implements Serializable
         {
             JOptionPane.showMessageDialog(null, "WARNING: " 
                                                             + player.detectMonsters(map) 
-                                                            + " monster(s) in front of you!!!");
+                                                            + " monster(s) in front of you!!! (Press [6] to Attack)");
         }          
     }
 
@@ -351,12 +364,18 @@ public class GameStageTest implements Serializable
     public void resetPlayerWhenDied(){
         this.player = new Player(null);
         this.invent = new Inventory(inventorySize);
+
+        //update stage number
+        this.stageNo = 1;
     }
 
     
     public void resetPlayerWhenNextStage(){
         this.player.setXY(0, 0, map);
         this.player.heal(this.player.getMaxHp());
+
+        //update stage number
+        this.stageNo++;
     }
 
 

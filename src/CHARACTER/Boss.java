@@ -69,7 +69,11 @@ public class Boss extends Monster
             {
                 if(!this.inSecondPhase)         //if boss in phase 1
                 {
-                    p.takeDamage(this.getAttack());
+                    JOptionPane.showMessageDialog(null, "WARNING: " 
+                                                                + this.getName() 
+                                                                + " attacked you. You lost " 
+                                                                + p.takeDamage(this.getAttack()) 
+                                                                + " HP!!!");
                 }
                 else                            //if boss in phase 2
                 {
@@ -79,7 +83,11 @@ public class Boss extends Monster
                     }
                     else
                     {
-                        p.takeDamage(this.getAttack());
+                        JOptionPane.showMessageDialog(null, "WARNING: " 
+                                                                + this.getName() 
+                                                                + " attacked you. You lost " 
+                                                                + p.takeDamage(this.getAttack()) 
+                                                                + " HP!!!");
                     }
                     collisionCount++;
                 }

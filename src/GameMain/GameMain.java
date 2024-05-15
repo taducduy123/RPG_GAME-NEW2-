@@ -19,12 +19,15 @@ public class GameMain
     private String[] path = new String[]{"src/InputFile/map1.txt", "src/InputFile/map2.txt", "src/InputFile/map3.txt"};
     private String playerName;
 
+    
+
+
     private static Scanner input = new Scanner(System.in);
 //----------------------------------------------------------------------------
 
     //Constructor
     public GameMain()
-    {
+    {   
         
     }
 
